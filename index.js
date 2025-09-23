@@ -210,7 +210,7 @@ app.post("/api/organizer/login", async (req, res) => {
   }
 });
 
-// -------------------- START SERVER --------------------
+// -------------------- START SERVER -----------------
 app.listen(port, () => {
   console.log("Server running on port", port);
 });
