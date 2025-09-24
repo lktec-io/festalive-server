@@ -5,6 +5,7 @@ const Creator = require("./model/creator");
 const Organizer = require("./model/organizer");
 const bcrypt = require("bcrypt");
 const multer = require("multer");
+const bodyParser = require("body-parser")
 const { v2: cloudinary } = require("cloudinary");
 require("dotenv").config();
 
@@ -13,6 +14,7 @@ const port = process.env.PORT || 8000;
 
 app.use(express.json());
 app.use(cors());
+app.use(bodyParser.json())
 
 // -------------------- CLOUDINARY CONFIG --------------------
 cloudinary.config({
