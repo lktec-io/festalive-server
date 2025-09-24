@@ -1,6 +1,5 @@
 const { Sequelize } = require("sequelize");
 
-
 const sequelize = new Sequelize({
   host: "localhost",
   dialect: "mysql",
@@ -11,7 +10,6 @@ const sequelize = new Sequelize({
   dialectModule: require("mysql2"),
   logging: false,
 });
- 
 (async () => {
   try {
     await sequelize.authenticate();
