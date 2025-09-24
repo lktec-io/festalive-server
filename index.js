@@ -55,7 +55,7 @@ const loginHelper = async (Model, email, password, role, res) => {
 };
 
 // -------------------- USER REGISTER & LOGIN --------------------
-app.post("/api/user/register", upload.single("profilePic"), async (req, res) => {
+app.post("/web/user/register", upload.single("profilePic"), async (req, res) => {
   const { email, password, confirmPassword } = req.body;
   try {
     if (!email || !password || !confirmPassword)
@@ -89,7 +89,7 @@ app.post("/api/user/register", upload.single("profilePic"), async (req, res) => 
   }
 });
 
-app.post("/api/user/login", async (req, res) => {
+app.post("/web/user/login", async (req, res) => {
   try {
     const { email, password } = req.body;
     await loginHelper(User, email, password, "user", res);
@@ -100,7 +100,7 @@ app.post("/api/user/login", async (req, res) => {
 });
 
 // -------------------- CREATOR REGISTER & LOGIN --------------------
-app.post("/api/creator/register", upload.single("profilePic"), async (req, res) => {
+app.post("/web/creator/register", upload.single("profilePic"), async (req, res) => {
   try {
     const formData = req.body;
     const { email, password, confirmPassword } = formData;
@@ -144,7 +144,7 @@ app.post("/api/creator/register", upload.single("profilePic"), async (req, res) 
   }
 });
 
-app.post("/api/creator/login", async (req, res) => {
+app.post("/web/creator/login", async (req, res) => {
   try {
     const { email, password } = req.body;
     await loginHelper(Creator, email, password, "creator", res);
@@ -155,7 +155,7 @@ app.post("/api/creator/login", async (req, res) => {
 });
 
 // -------------------- ORGANIZER REGISTER & LOGIN --------------------
-app.post("/api/organizer/register", upload.single("profilePic"), async (req, res) => {
+app.post("/web/organizer/register", upload.single("profilePic"), async (req, res) => {
   try {
     const formData = req.body;
     const { email, password, confirmPassword } = formData;
@@ -200,7 +200,7 @@ app.post("/api/organizer/register", upload.single("profilePic"), async (req, res
   }
 });
 
-app.post("/api/organizer/login", async (req, res) => {
+app.post("/web/organizer/login", async (req, res) => {
   try {
     const { email, password } = req.body;
     await loginHelper(Organizer, email, password, "organizer", res);
@@ -209,12 +209,10 @@ app.post("/api/organizer/login", async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 });
-
 // -------------------- START SERVER -----------------
 app.listen(port, () => {
   console.log("Server running on port", port);
 });
-
 
 
 
