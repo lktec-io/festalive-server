@@ -15,6 +15,9 @@ const port = process.env.PORT || 8000;
 app.use(express.json());
 app.use(cors());
 app.use(bodyParser.json())
+app.use(bodyParser.json({ limit: "10mb" }));
+app.use(bodyParser.urlencoded({ limit: "10mb", extended: true }));
+
 
 // -------------------- CLOUDINARY CONFIG --------------------
 cloudinary.config({
@@ -25,7 +28,11 @@ cloudinary.config({
 
 // -------------------- MULTER STORAGE --------------------
 const storage = multer.memoryStorage();
-const upload = multer({ storage });
+const upload = multer({
+  storage,
+  limits: { fileSize: 5 * 1024 * 1024 }, // 5 MB max per file
+});
+
 
 // -------------------- HELPER FUNCTION: UPLOAD TO CLOUDINARY --------------------
 const uploadToCloudinary = (fileBuffer, folder) => {
