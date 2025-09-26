@@ -50,11 +50,9 @@ const uploadToCloudinary = (fileBuffer, folder) => {
 app.post("/web/event/add", async (req, res) => {
   try {
     const { eventName, eventDate, location, description, phone } = req.body;
-
     if (!eventName || !eventDate || !location || !description) {
       return res.status(400).json({ message: "All fields except phone are required" });
     }
-
     const newEvent = await Event.create({
       eventName,
       eventDate,
@@ -84,9 +82,24 @@ app.get("/web/event/all", async (req, res) => {
   }
 });
 
+// -------------------- DELETE EVENT --------------------
+app.delete("/web/event/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    console.log("Deleting event with id:", id); // hii inathibitisha request inafika
 
+    const event = await Event.findByPk(id);
+    if (!event) {
+      return res.status(404).json({ message: "Event not found" });
+    }
 
-
+    await event.destroy();
+    return res.status(200).json({ message: "Event deleted successfully" });
+  } catch (err) {
+    console.error("Delete event error:", err);
+    return res.status(500).json({ message: "Server error" });
+  }
+});
 
 // -------------------- HELPER FUNCTION: LOGIN --------------------
 const loginHelper = async (Model, email, password, role, res) => {
