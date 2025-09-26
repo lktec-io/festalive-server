@@ -91,7 +91,7 @@ app.delete("/web/event/:id", async (req, res) => {
     if (isNaN(id)) {
       return res.status(400).json({ message: "Invalid ID format" });
     }
-
+    
     const event = await Event.findByPk(id);
     if (!event) {
       return res.status(404).json({ message: "Event not found" });
