@@ -95,7 +95,7 @@ app.delete("/web/event/:id", async (req, res) => {
 });
 
 
-// -------------------- HELPER FUNCTION: LOGIN --------------------
+// -------------------- HELPER FUNCTION: LOGIN ---------------
 const loginHelper = async (Model, email, password, role, res) => {
   if (!email || !password)
     return res.status(400).json({ message: "Email and password are required" });
