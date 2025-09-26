@@ -1,6 +1,7 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../database/registration"); 
 const bcrypt = require("bcrypt");
+sequelize.sync();
 
 const Creator = sequelize.define("creator", {
   id: {

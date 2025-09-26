@@ -3,12 +3,12 @@ const cors = require("cors");
 const User = require("./model/users");
 const Creator = require("./model/creator");
 const Organizer = require("./model/organizer");
+const Event = require("./model/event");
 const bcrypt = require("bcrypt");
 const multer = require("multer");
 const bodyParser = require("body-parser")
 const { v2: cloudinary } = require("cloudinary");
 require("dotenv").config();
-
 const app = express();
 const port = process.env.PORT || 8000;
 
@@ -45,6 +45,48 @@ const uploadToCloudinary = (fileBuffer, folder) => {
     stream.end(fileBuffer);
   });
 };
+
+// -------------------- ADD EVENT --------------------
+app.post("/web/event/add", async (req, res) => {
+  try {
+    const { eventName, eventDate, location, description, phone } = req.body;
+
+    if (!eventName || !eventDate || !location || !description) {
+      return res.status(400).json({ message: "All fields except phone are required" });
+    }
+
+    const newEvent = await Event.create({
+      eventName,
+      eventDate,
+      location,
+      description,
+      phone,
+    });
+
+    return res.status(201).json({ message: "Event added successfully", event: newEvent });
+  } catch (err) {
+    console.error("Add event error:", err);
+    return res.status(500).json({ message: "Server error" });
+  }
+});
+
+// -------------------- GET ALL EVENTS --------------------
+app.get("/web/event/all", async (req, res) => {
+  try {
+    const events = await Event.findAll({
+      order: [["createdAt", "DESC"]],
+    });
+
+    return res.status(200).json(events);
+  } catch (err) {
+    console.error("Get events error:", err);
+    return res.status(500).json({ message: "Server error" });
+  }
+});
+
+
+
+
 
 // -------------------- HELPER FUNCTION: LOGIN --------------------
 const loginHelper = async (Model, email, password, role, res) => {
