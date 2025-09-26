@@ -84,22 +84,16 @@ app.get("/web/event/all", async (req, res) => {
 
 // -------------------- DELETE EVENT --------------------
 app.delete("/web/event/:id", async (req, res) => {
-  try {
-    const { id } = req.params;
-    console.log("Deleting event with id:", id); // hii inathibitisha request inafika
+  console.log("Request received to delete event with id:", req.params.id);
+  const { id } = req.params;
 
-    const event = await Event.findByPk(id);
-    if (!event) {
-      return res.status(404).json({ message: "Event not found" });
-    }
+  const event = await Event.findByPk(id);
+  if (!event) return res.status(404).json({ message: "Event not found" });
 
-    await event.destroy();
-    return res.status(200).json({ message: "Event deleted successfully" });
-  } catch (err) {
-    console.error("Delete event error:", err);
-    return res.status(500).json({ message: "Server error" });
-  }
+  await event.destroy();
+  return res.status(200).json({ message: "Event deleted successfully" });
 });
+
 
 // -------------------- HELPER FUNCTION: LOGIN --------------------
 const loginHelper = async (Model, email, password, role, res) => {
