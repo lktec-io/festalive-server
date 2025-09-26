@@ -1,7 +1,7 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../database/registration"); // hakikisha hii inarejea connection yako ya Sequelize
 
-const Event = sequelize.define("Event", {
+const Event = sequelize.define("event", {
      id: { type: DataTypes.INTEGER, 
         primaryKey: true, 
         autoIncrement: true

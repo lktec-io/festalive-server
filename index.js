@@ -84,14 +84,25 @@ app.get("/web/event/all", async (req, res) => {
 
 // -------------------- DELETE EVENT --------------------
 app.delete("/web/event/:id", async (req, res) => {
-  console.log("Request received to delete event with id:", req.params.id);
-  const { id } = req.params;
+  try {
+    const id = parseInt(req.params.id, 10); // hakikisha ni namba
+    console.log("Request received to delete event with id:", id);
 
-  const event = await Event.findByPk(id);
-  if (!event) return res.status(404).json({ message: "Event not found" });
+    if (isNaN(id)) {
+      return res.status(400).json({ message: "Invalid ID format" });
+    }
 
-  await event.destroy();
-  return res.status(200).json({ message: "Event deleted successfully" });
+    const event = await Event.findByPk(id);
+    if (!event) {
+      return res.status(404).json({ message: "Event not found" });
+    }
+
+    await event.destroy();
+    return res.status(200).json({ message: "Event deleted successfully" });
+  } catch (err) {
+    console.error("Error deleting event:", err);
+    return res.status(500).json({ message: "Internal server error" });
+  }
 });
 
 
